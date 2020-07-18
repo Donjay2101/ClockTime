@@ -1,0 +1,29 @@
+﻿@model Timesheet.Models.Punch
+<div class="container">
+    <div  class="timeClock mt-5">
+        <div class="header">
+            <div>Time clock</div>
+        </div>
+        <form id="timeClockForm" asp-action="Test">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="StartTime" class="control-label"></label>
+                <input asp-for="StartTime" class="form-control" />
+                <span asp-validation-for="StartTime" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="JobId" class="control-label"></label>
+                <input asp-for="JobId" class="form-control" />
+                <span asp-validation-for="JobId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SuperVisorID" class="control-label"></label>
+                <input asp-for="SuperVisorID" class="form-control" />
+                <span asp-validation-for="SuperVisorID" class="text-danger"></span>
+            </div>
+            <div class="form-group float-md-right">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,12 @@
+**/bin
+**/obj
+**/.vs
+
+**/outputFiles
+
+**/**/packages
+
+/**/appsettings.Development.json
+/**/appsettings.staging.json
+/**/appsettings.Production.json
+/**/appsettings.json

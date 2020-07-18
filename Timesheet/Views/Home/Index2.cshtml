@@ -1,0 +1,143 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+@*Clock Status*@
+<div class="p-3 mb-4 mt-4 card">
+    <div class="row">
+        <div class="col-md-4">
+            <p class="m-0 font-weight-bold">Date : 14 July 2020 12:30 </p>
+        </div>
+        <div class="col-md-4 offset-md-4 text-md-right">
+            <p class="m-0 font-weight-bold">Current Status : <span id="spnStatus" class="text-secondary">@ViewBag.Status</span> </p>
+        </div>
+    </div>
+</div>
+@*Clock Status*@
+
+
+
+@*Action buttons *@
+<div class="row mb-3">
+    <div class="col-md-3 pb-3">
+        <button type="button" class="btn btn-success btn-lg w-100" id="actClockIn">Clock In</button>
+    </div>
+    <div class="col-md-3 pb-3">
+        <button type="button" class="btn btn-success btn-lg w-100" id="actLunchStart">Lunch Start</button>
+    </div>
+    <div class="col-md-3 pb-3">
+        <button type="button" class="btn btn-danger btn-lg w-100" id="actLunchEnd">Lunch End</button>
+    </div>
+    <div class="col-md-3 pb-3">
+        <button type="button" class="btn btn-danger btn-lg w-100" id="actClockOut">Clock Out</button>
+    </div>
+    <div class="col-md-2 pb-3">
+        <button type="button" class="btn btn-success btn-lg w-100" id="actSubmit">Submit</button>
+    </div>
+</div>
+@*Action buttons *@
+
+
+@*Table *@
+<div id="data">
+
+</div>
+@*Table  *@
+
+@*Modals *@
+<div class="modal fade" id="clockIn" tabindex="-1" role="dialog" aria-labelledby="clockInLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="clockInLabel">Hi, Name</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body text-center">
+                <h4 id="clockTitle"> </h4>
+                <div class="form-group m-4">
+                    <textarea class="form-control" id="txtDescription" placeholder="Want to add a note? Add it here..." rows="3"></textarea>
+                </div>
+                <div class="m-auto">
+                    <button type="button" class="btn btn-success" id="btnClockIn">Clock In</button>
+                </div>
+            </div>
+            <div class="modal-footer bg-secondary">
+                <div class="m-auto text-white">
+                    <h4 id="txtTime">@DateTime.Now.ToString("MM/dd/yyyy HH:mm:ss")</h4>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="clockInSuccess" tabindex="-1" role="dialog" aria-labelledby="clockInSuccess" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body text-center">
+                <h4>status updated successfully, Ben. </h4>
+                <img src="~/images/clockin.PNG" class="img-responsive" />
+            </div>
+            <div class="modal-footer m-auto">
+                <button type="button" class="btn btn-success" data-dismiss="modal">Ok</button>
+            </div>
+        </div>
+    </div>
+</div>
+@*Modals *@
+<script src="~/js/Constants.js"></script>
+<script src="~/js/punchTime.js"></script>
+<script src="~/js/punchLog.js"></script>
+
+<script>
+    $(document).ready(function (e) {
+
+        punchLog.loadPunchLog();
+        //punchTime.updateStatus('@ViewBag.Status');
+
+
+        $('#actClockIn').click(function () {
+            $('#clockTitle').html("Would you like to Clock In ?");
+            $('#btnClockIn').html(constants.ClockedIn);
+            constants.setLocalStorage('band', constants.combination.ClockedIn);
+            $('#clockIn').modal('show');
+        });
+
+
+        $('#actClockOut').click(function () {
+            $('#clockTitle').html("Would you like to Clock out ?");
+            $('#btnClockIn').html(constants.ClocedOut);
+            constants.setLocalStorage('band', constants.combination.ClockedOut);
+            $('#clockIn').modal('show');
+        });
+
+
+        $('#actLunchStart').click(function () {
+            $('#clockTitle').html("Would you like to description?");
+            $('#btnClockIn').html(constants.Lunch);
+            constants.setLocalStorage('band', constants.combination.Lunch);
+            $('#clockIn').modal('show');
+        });
+
+        $('#actLunchEnd').click(function () {
+            $('#clockTitle').html("Would you like to description?");
+            $('#btnClockIn').html(constants.Lunchout);
+            constants.setLocalStorage('band', constants.combination.Lunchout);
+            $('#clockIn').modal('show');
+        });
+
+        $('#btnClockIn').click(function () {
+            debugger;
+            var name = constants.getLocalStorage('band')
+            var obj = { description: $('#txtDescription').val(), PunchName: name , PunchTime: new Date().toJSON() };
+          //  punchTime.clockIn(obj,name);
+            punchLog.InsertPunchLog(obj);
+        });
+    });
+</script>

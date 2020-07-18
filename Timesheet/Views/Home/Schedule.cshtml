@@ -1,0 +1,26 @@
+﻿@{
+    Layout = null;
+}
+
+
+@model IEnumerable<Patriot.Entities.DailyLog>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th scope="col">Entries</th>
+            <th scope="col">Time</th>
+            <th scope="col">Description</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.PunchName)</td>
+                <td>@item.PunchTime.ToString("MM/dd/yyyy HH:mm:ss")</td>
+                <td>@item.Description</td>
+            </tr>
+        }
+    </tbody>
+</table>

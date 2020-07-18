@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="ViewModels\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Patriot.Core.Repositories\Patriot.Core.Repositories.csproj" />
+    <ProjectReference Include="..\Patriot.Entities\Patriot.Entities.csproj" />
+  </ItemGroup>
+
+</Project>
