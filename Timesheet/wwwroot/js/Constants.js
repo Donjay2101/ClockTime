@@ -1,9 +1,9 @@
 ﻿var constants = (function () {
 
-    ClockedIn = "Clock In";
-    ClocedOut = "Clock Out";
-    Lunch = "Lunch start";
-    Lunchout = "Lunch end";
+    ClockedIn = "Clocked In";
+    ClocedOut = "Clocked Out";
+    Lunch = "Lunch started";
+    Lunchout = "Lunch ended";
     NoStatus = "No Status";
 
     BaseUrl = "https://localhost:44361/";
@@ -11,10 +11,10 @@
 
 
     var combination = {
-        ClockedIn: "clockedIn",
-        ClockedOut: "clockedout",
-        Lunch: "lunchStart",
-        Lunchout: "LunchStart"
+        clockedin: "clockedin",
+        clockedout: "clockedout",
+        lunchstart: "lunchstart",
+        lunchout: "lunchend"
     }
       
     var setLocalStorage = (loc, val) => {

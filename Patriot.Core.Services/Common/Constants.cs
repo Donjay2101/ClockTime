@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Text;
 
-namespace Timesheet.Common
+namespace Patriot.Core.Services.Common
 {
     public static class Constants
     {
@@ -12,8 +11,6 @@ namespace Timesheet.Common
         public static string Lunch { get; } = "Lunch Start";
         public static string Lunchout { get; } = "Lunch End";
         public static string NoStatus { get; } = "No Status";
-
-   
-
+        public static string[] Columns = new string[] { "clockedin", "Clockedout", "lunchstart", "lunchend" };
     }
 }

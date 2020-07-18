@@ -9,5 +9,6 @@ namespace Patriot.Core.Services.Services.Interfaces
     {
         IEnumerable<DailyLog> GetDailyLogs();
         void insert(DailyLog log);
+        string GetCurrentStatus();
     }
 }

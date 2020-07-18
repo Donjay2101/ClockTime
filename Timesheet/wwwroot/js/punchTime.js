@@ -132,7 +132,7 @@ var punchTime = (function () {
     var enableButtons = () => {
         $('#actLunchStart').prop('disabled', false);
         $('#actLunchEnd').prop('disabled', false);
-        $('#actClockIn').prop('disabled', false);
+        $('#actClockIn').prop('disabled', true);
         $('#actClockOut').prop('disabled', false);
     }
 
@@ -144,7 +144,10 @@ var punchTime = (function () {
         lunchOut,
         disableButton,
         enableButton,
-        updateStatus
+        updateStatus,
+        enableButtons,
+        disableButton,
+        enableButton
     }
 
 

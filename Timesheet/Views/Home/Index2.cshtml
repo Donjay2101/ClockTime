@@ -16,23 +16,23 @@
 @*Clock Status*@
 
 
-
 @*Action buttons *@
+
 <div class="row mb-3">
-    <div class="col-md-3 pb-3">
-        <button type="button" class="btn btn-success btn-lg w-100" id="actClockIn">Clock In</button>
-    </div>
-    <div class="col-md-3 pb-3">
-        <button type="button" class="btn btn-success btn-lg w-100" id="actLunchStart">Lunch Start</button>
-    </div>
-    <div class="col-md-3 pb-3">
-        <button type="button" class="btn btn-danger btn-lg w-100" id="actLunchEnd">Lunch End</button>
-    </div>
-    <div class="col-md-3 pb-3">
-        <button type="button" class="btn btn-danger btn-lg w-100" id="actClockOut">Clock Out</button>
+    <div class="col-md-2 offset-md-1 pb-3">
+        <button type="button" class="btn btn-success w-100" id="actClockIn">Clock In</button>
     </div>
     <div class="col-md-2 pb-3">
-        <button type="button" class="btn btn-success btn-lg w-100" id="actSubmit">Submit</button>
+        <button type="button" class="btn btn-success w-100" id="actLunchStart">Lunch Start</button>
+    </div>
+    <div class="col-md-2 pb-3">
+        <button type="button" class="btn btn-danger  w-100" id="actLunchEnd">Lunch End</button>
+    </div>
+    <div class="col-md-2 pb-3">
+        <button type="button" class="btn btn-danger w-100" id="actClockOut">Clock Out</button>
+    </div>
+    <div class="col-md-2 pb-3">
+        <button type="button" class="btn btn-success w-100" id="actSubmit">Submit</button>
     </div>
 </div>
 @*Action buttons *@
@@ -99,13 +99,13 @@
     $(document).ready(function (e) {
 
         punchLog.loadPunchLog();
-        //punchTime.updateStatus('@ViewBag.Status');
+        punchLog.updateStatus('@ViewBag.Status');
 
 
         $('#actClockIn').click(function () {
             $('#clockTitle').html("Would you like to Clock In ?");
             $('#btnClockIn').html(constants.ClockedIn);
-            constants.setLocalStorage('band', constants.combination.ClockedIn);
+            constants.setLocalStorage('band', constants.combination.clockedin);
             $('#clockIn').modal('show');
         });
 
@@ -113,7 +113,7 @@
         $('#actClockOut').click(function () {
             $('#clockTitle').html("Would you like to Clock out ?");
             $('#btnClockIn').html(constants.ClocedOut);
-            constants.setLocalStorage('band', constants.combination.ClockedOut);
+            constants.setLocalStorage('band', constants.combination.clockedout);
             $('#clockIn').modal('show');
         });
 
@@ -121,14 +121,14 @@
         $('#actLunchStart').click(function () {
             $('#clockTitle').html("Would you like to description?");
             $('#btnClockIn').html(constants.Lunch);
-            constants.setLocalStorage('band', constants.combination.Lunch);
+            constants.setLocalStorage('band', constants.combination.lunchstart);
             $('#clockIn').modal('show');
         });
 
         $('#actLunchEnd').click(function () {
             $('#clockTitle').html("Would you like to description?");
             $('#btnClockIn').html(constants.Lunchout);
-            constants.setLocalStorage('band', constants.combination.Lunchout);
+            constants.setLocalStorage('band', constants.combination.lunchout);
             $('#clockIn').modal('show');
         });
 

@@ -28,6 +28,8 @@
                // $('#data').html(response);
                 loadPunchLog();
                 updateStatus(obj.PunchName);
+                $('#clockIn').modal('hide');
+                $('#clockInSuccess').modal('show');
             },
             error: function (err) {
                 $('#data').html("data is not availble for the day");
@@ -41,30 +43,35 @@
     };
 
     updateStatus = (status) => {
+        
+        status = status.toLowerCase();
         console.log(status);
+        constants.combination[status.toLowerCase()];
         switch (status) {
-            case constants.combination.ClockedIn:
+            case constants.combination.clockedin:
                 punchTime.enableButtons();
                 punchTime.disableButton('actClockIn');
                 //enableButton('actClockOut');
                 $('#spnStatus').html(constants.ClockedIn);
                 $('#spnStatus').prop('class', 'text-success');
                 break;
-            case constants.combination.ClockedOut:
+            case constants.combination.clockedout:
                 punchTime.enableButtons();
                 //enableButton('actClockIn');
-                punchTime.disableButton('actClockOut');
+                punchTime.disableButton('actClockOut');                
+                punchTime.disableButton('actLunchEnd');                
+                punchTime.disableButton('actLunchStart');
                 $('#spnStatus').html(constants.ClocedOut);
                 $('#spnStatus').prop('class', 'text-danger');
                 break;
-            case constants.combination.Lunch:
+            case constants.combination.lunchstart:
                 punchTime.enableButtons();
                 punchTime.disableButton('actLunchStart');
                 // enableButton('actLunchEnd');
                 $('#spnStatus').html(constants.Lunch);
                 $('#spnStatus').prop('class', 'text-success');
                 break;
-            case constants.combination.Lunchout:
+            case constants.combination.lunchout:
                 punchTime.enableButtons();
                 punchTime.disableButton('actLunchEnd');
                 //enableButton('actLunchStart');
@@ -81,7 +88,8 @@
 
     return {
         loadPunchLog,
-        InsertPunchLog
+        InsertPunchLog,
+        updateStatus
     }
 
 })();

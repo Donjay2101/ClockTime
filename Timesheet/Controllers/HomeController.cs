@@ -32,7 +32,7 @@ namespace Timesheet.Controllers
 
         public IActionResult Index2()
         {
-            SetStatus();
+            Status(); 
             return View();
         }
 
@@ -49,17 +49,10 @@ namespace Timesheet.Controllers
         }
 
 
-        public IActionResult Status()
-        {
-            TempData["name"] = "Test data";
-            var Status = "No status";
-            var data =  _service.GetCurrentStatus();
-            if (data != null)
-            {
-                Status = data.PunchName;
-            }
-
-            return Json(Status);
+        public void Status()
+        {                  
+            ViewBag.Status = _pService.GetCurrentStatus();
+            
         }
 
 
@@ -75,7 +68,7 @@ namespace Timesheet.Controllers
 
         public async Task<IActionResult> Schedule1()
         {
-
+            
             var data = _pService.GetDailyLogs();
             return PartialView("Schedule", data);
         }
