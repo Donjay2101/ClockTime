@@ -83,58 +83,98 @@ var punchTime = (function () {
     };
 
 
-    updateStatus = (status) => {
-        console.log(status);
-        switch (status) {
-            case constants.ClockedIn:
-                enableButtons();
-                disableButton('actClockIn');
-                //enableButton('actClockOut');
-                $('#spnStatus').html(constants.ClockedIn);
-                $('#spnStatus').prop('class', 'text-success');
-                break;
-            case constants.ClocedOut:
-                enableButtons();
-                //enableButton('actClockIn');
-                disableButton('actClockOut');
-                $('#spnStatus').html(constants.ClocedOut);
-                $('#spnStatus').prop('class', 'text-danger');
-                break;
-            case constants.Lunch:
-                enableButtons();
-                disableButton('actLunchStart');
-               // enableButton('actLunchEnd');
-                $('#spnStatus').html(constants.Lunch);
-                $('#spnStatus').prop('class', 'text-success');
-                break;
-            case constants.Lunchout:
-                enableButtons();
-                disableButton('actLunchEnd');
-                //enableButton('actLunchStart');
-                $('#spnStatus').html(constants.Lunchout);
-                $('#spnStatus').prop('class', 'text-danger');
-                break;
-            default:
-                $('#spnStatus').html(constants.NoStatus);
-                $('#spnStatus').prop('class', 'text-secondary');
-                break;
-        }
+    //updateStatus = (status) => {
+    //    console.log(status);
+    //    switch (status) {
+    //        case constants.ClockedIn:
+    //            enableButtons();
+    //            disableButton('actClockIn');
+    //            //enableButton('actClockOut');
+    //            $('#spnStatus').html(constants.ClockedIn);
+    //            $('#spnStatus').prop('class', 'text-success');
+    //            break;
+    //        case constants.ClocedOut:
+    //            enableButtons();
+    //            //enableButton('actClockIn');
+    //            disableButton('actClockOut');
+    //            $('#spnStatus').html(constants.ClocedOut);
+    //            $('#spnStatus').prop('class', 'text-danger');
+    //            break;
+    //        case constants.Lunch:
+    //            enableButtons();
+    //            disableButton('actLunchStart');
+    //           // enableButton('actLunchEnd');
+    //            $('#spnStatus').html(constants.Lunch);
+    //            $('#spnStatus').prop('class', 'text-success');
+    //            break;
+    //        case constants.Lunchout:
+    //            enableButtons();
+    //            disableButton('actLunchEnd');
+    //            //enableButton('actLunchStart');
+    //            $('#spnStatus').html(constants.Lunchout);
+    //            $('#spnStatus').prop('class', 'text-danger');
+    //            break;
+    //        default:
+    //            $('#spnStatus').html(constants.NoStatus);
+    //            $('#spnStatus').prop('class', 'text-secondary');
+    //            break;
+    //    }
+    //}
+
+    var disableButton = (btn,cls) => {
+        $('#' + btn).prop('disabled', true);    
+        removeClass('#' + btn, cls);
+        addClass('#' + btn, 'btn-secondary');
     }
 
-    var disableButton = (btn) => {
-        $('#' + btn).prop('disabled',true);
+    var enableButton = (btn,cls) => {
+        $('#' + btn).prop('disabled', false);      
+        removeClass('#' + btn, 'btn-secondary');
+        addClass('#' + btn, cls);
     }
 
-    var enableButton = (btn) => {
-        $('#' + btn).prop('disabled', false);
+    var addClass = (elem, cls) => {       
+        $(elem).addClass(cls);
     }
 
-    var enableButtons = () => {
-        $('#actLunchStart').prop('disabled', false);
-        $('#actLunchEnd').prop('disabled', false);
-        $('#actClockIn').prop('disabled', true);
-        $('#actClockOut').prop('disabled', false);
+    var removeClass = (elem, cls) => {
+        $(elem).removeClass(cls);
     }
+
+    //var enableButtons = () => {
+    //    $('#actLunchStart').prop('disabled', false);
+    //    $('#actLunchEnd').prop('disabled', false);
+    //    $('#actClockIn').prop('disabled', true);
+    //    $('#actClockOut').prop('disabled', false);
+    //}
+
+
+    //var dsiableButtons= () => {
+    //    $('#actLunchStart').prop('disabled', true);
+    //    $('#actLunchStart').css('background-color', 'grey');
+    //    $('#actLunchStart').css('color', 'white');
+    //    $('#actLunchEnd').prop('disabled', true);
+    //    $('#actLunchEnd').css('background-color', 'grey');
+    //    $('#actLunchEnd').css('color', 'white');
+    //    $('#actClockIn').prop('disabled', false);
+        
+    //    $('#actClockOut').prop('disabled', true);
+    //    $('#actClockOut').css('background-color', 'grey');
+    //    $('#actClockOut').css('color', 'white');
+    //}
+
+    //var disableSubmit = () => {
+    //    disableButton('actSubmit');
+    //    removeClass('actSubmit', 'btn-success');
+    //    addClass('acrtSubmit', 'btn-secondary');
+    //}
+
+    //var disableSubmit = () => {
+    //    enableButton('actSubmit');
+    //    removeClass('acrtSubmit', 'btn-secondary');
+    //    addClass('actSubmit', 'btn-success');
+        
+    //}
 
     return {
         loadPunchLog,
@@ -143,11 +183,9 @@ var punchTime = (function () {
         lunchIn,
         lunchOut,
         disableButton,
-        enableButton,
-        updateStatus,
-        enableButtons,
-        disableButton,
-        enableButton
+        enableButton,                       
+        addClass,
+        removeClass
     }
 
 

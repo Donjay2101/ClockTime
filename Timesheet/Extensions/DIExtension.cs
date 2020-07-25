@@ -9,9 +9,9 @@ namespace Timesheet.Extensions
     {
         public static void AddDependencies(this IServiceCollection services)
         {
-            services.AddSingleton<IDailyLogService, DailyLogService>();
-            services.AddSingleton<IDailyPuchLogs, DailyPunchLogService>();
-            services.AddSingleton<IUnitOfWork, UnitOfWork>();
+            services.AddTransient<IDailyLogService, DailyLogService>();
+            services.AddTransient<IDailyPuchLogs, DailyPunchLogService>();
+            services.AddTransient<IUnitOfWork, UnitOfWork>();
         }
     }
 }

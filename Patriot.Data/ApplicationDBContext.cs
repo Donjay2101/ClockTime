@@ -12,7 +12,10 @@ namespace Patriot.Data.Context
 
         public DbSet<DailyLog> DailyLogs { get; set; }
 
-        public DbSet<DailyPunchLogs> DailyPunchLogs { get; set; }
+        public DbSet<Timesheets> Timesheets { get; set; }
+
+        public DbSet<TimesheetStatus> TimeSheetStatus { get; set; }
+
 
     }
 }

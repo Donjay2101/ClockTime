@@ -1,17 +1,15 @@
-﻿@{
-    Layout = null;
+﻿@model IEnumerable<Patriot.Entities.DailyLog>
+@if (Model != null && Model.Count() > 0)
+{
+    <input type="hidden" id="rowID" value="@Model.FirstOrDefault().ID" />
 }
-@model IEnumerable<Patriot.Entities.DailyLog>
-
-
 
 <table class="table table-striped">
     <thead>
         <tr>
             <th scope="col">Entries</th>
             <th scope="col">Date</th>
-            <th scope="col">Time</th>
-            <th scope="col">Action</th>
+            <th scope="col">Time</th>     
         </tr>
     </thead>
     <tbody>
@@ -21,13 +19,13 @@
             {
                 if (item.Time != "0 hours")
                 {
-                    <tr class="tblTotal">
-                        <td colspan="3">@Html.DisplayFor(modelItem => item.PunchName)</td>
-                        <td>@item.Time</td>                      
+                    <tr class="tblTotal" >
+                        <td colspan="2">@Html.DisplayFor(modelItem => item.PunchName)</td>
+                        <td>@item.Time</td>
                     </tr>
                 }
                 <tr style=" height: 50px;"></tr>
-
+                
             }
             else
             {
@@ -35,7 +33,6 @@
                     <td>@Html.DisplayFor(modelItem => item.PunchName)</td>
                     <td>@item.PunchTime.Date.ToString("MM/dd/yyyy")</td>
                     <td>@item.PunchTime.ToString("HH:mm")</td>
-                    <td><a style="cursor: pointer;color: #2320c3;font-weight: 500;" onclick="openEditLog('@item.PunchTime.ToString("MM/dd/yyyy HH:mm")','@item.ID','@item.PunchName')" class="linkEditLog">edit</a></td>
                 </tr>
             }
 

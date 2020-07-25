@@ -9,7 +9,8 @@ namespace Patriot.Core.Services.IOW
     {
         private ApplicationDBContext _dbContext;
         private BaseRepository<DailyLog> _dailyLogs;
-        private BaseRepository<DailyPunchLogs> _dailypunchLogs;
+        private BaseRepository<Timesheets> _dailypunchLogs;
+        private BaseRepository<TimesheetStatus> _timeSheetStatus;
 
         public UnitOfWork(ApplicationDBContext dbContext)
         {
@@ -25,16 +26,25 @@ namespace Patriot.Core.Services.IOW
             }
         }
 
-
-
-        public IBaseRepository<DailyPunchLogs> DailyPunchLogsRepo
+        public IBaseRepository<Timesheets> DailyPunchLogsRepo
         {
             get
             {
                 return _dailypunchLogs ??
-                    (_dailypunchLogs = new BaseRepository<DailyPunchLogs>(_dbContext));
+                    (_dailypunchLogs = new BaseRepository<Timesheets>(_dbContext));
             }
         }
+
+
+        public IBaseRepository<TimesheetStatus> TimesheetStatusRepo
+        {
+            get
+            {
+                return _timeSheetStatus ??
+                    (_timeSheetStatus = new BaseRepository<TimesheetStatus>(_dbContext));
+            }
+        }
+
 
 
         public void Commit()

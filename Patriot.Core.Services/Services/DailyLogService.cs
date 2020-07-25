@@ -23,7 +23,7 @@ namespace Patriot.Core.Services.Services
 
         public void Insert(DailyLog log)
         {
-            log.ID = Common.Common.GenerateID();
+            //log.ID = Common.Common.GenerateID();
             _work.DailyLogsRepo.Insert(log);
             _work.Commit();
         }

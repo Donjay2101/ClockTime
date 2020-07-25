@@ -5,6 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Patriot.Data.Extensions;
+using System;
 using Timesheet.Extensions;
 
 namespace Timesheet
@@ -21,9 +22,22 @@ namespace Timesheet
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            //#if DEBUG
+            //    if (Env.IsDevelopment())
+            //    {
+            //        builder.AddRazorRuntimeCompilation();
+            //    }
+            //#endif
             services.AddControllersWithViews();
+           // services.AddDistributedMemoryCache();
 
-            
+            services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromDays(365);
+                options.Cookie.HttpOnly = true;
+                options.Cookie.IsEssential = true;
+            });
+
             //AddContext
             services.AddContext(Configuration);
 
@@ -50,12 +64,13 @@ namespace Timesheet
             app.UseRouting();
 
             app.UseAuthorization();
+            app.UseSession();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index2}/{id?}");
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
             });
         }
     }

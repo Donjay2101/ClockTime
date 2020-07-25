@@ -13,7 +13,7 @@ namespace Patriot.Data.Extensions
             var section = configuration.GetSection("DbConfig:ConnectionString").Value;
 
 
-            services.AddDbContext<ApplicationDBContext>(options => options.UseSqlServer(section),ServiceLifetime.Singleton);
+            services.AddDbContext<ApplicationDBContext>(options => options.UseSqlServer(section),ServiceLifetime.Transient);
         }
     }
 }

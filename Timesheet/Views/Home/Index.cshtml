@@ -5,10 +5,19 @@
 @*Clock Status*@
 <div class="p-3 mb-4 mt-4 card">
     <div class="row">
-        <div class="col-md-4">
-            <p class="m-0 font-weight-bold">Date : 14 July 2020 12:30 </p>
+        <div class="col-md-2">
+            <p class="m-0 font-weight-bold">Date : <span id="spnCurrentDate"></span></p>
         </div>
-        <div class="col-md-4 offset-md-4 text-md-right">
+        <div class="col-md-2">
+            <p class="m-0 font-weight-bold">Total hours : <span id="spnTotalHours"></span></p>
+        </div>
+        <div class="col-md-2">
+            <p class="m-0 font-weight-bold">Current hours : <span id="spnCurrentHours"></span></p>
+        </div>
+        <div class="col-md-2">
+            <p class="m-0 font-weight-bold">Lunch hours : <span id="spnLunchHours"></span></p>
+        </div>
+        <div class="col-md-2">
             <p class="m-0 font-weight-bold">Current Status : <span id="spnStatus" class="text-secondary">@ViewBag.Status</span> </p>
         </div>
     </div>
@@ -16,23 +25,24 @@
 @*Clock Status*@
 
 
-
 @*Action buttons *@
+
 <div class="row mb-3">
-    <div class="col-md-3 pb-3">
-        <button type="button" class="btn btn-success btn-lg w-100" id="actClockIn">Clock In</button>
-    </div>
-    <div class="col-md-3 pb-3">
-        <button type="button" class="btn btn-success btn-lg w-100" id="actLunchStart">Lunch Start</button>
-    </div>
-    <div class="col-md-3 pb-3">
-        <button type="button" class="btn btn-danger btn-lg w-100" id="actLunchEnd">Lunch End</button>
-    </div>
-    <div class="col-md-3 pb-3">
-        <button type="button" class="btn btn-danger btn-lg w-100" id="actClockOut">Clock Out</button>
+
+    <div class="col-md-2 offset-md-1 pb-3">
+        <button type="button" class="btn btn-success w-100" id="actClockIn">Clock In</button>
     </div>
     <div class="col-md-2 pb-3">
-        <button type="button" class="btn btn-success btn-lg w-100" id="actSubmit">Submit</button>
+        <button type="button" class="btn btn-success w-100" id="actLunchStart">Lunch Start</button>
+    </div>
+    <div class="col-md-2 pb-3">
+        <button type="button" class="btn btn-danger  w-100" id="actLunchEnd">Lunch End</button>
+    </div>
+    <div class="col-md-2 pb-3">
+        <button type="button" class="btn btn-danger w-100" id="actClockOut">Clock Out</button>
+    </div>
+    <div class="col-md-2 pb-3">
+        <button type="button" class="btn btn-success w-100" id="actSubmit">Submit</button>
     </div>
 </div>
 @*Action buttons *@
@@ -81,7 +91,7 @@
                 </button>
             </div>
             <div class="modal-body text-center">
-                <h4>status updated successfully, Ben. </h4>
+                <h4 id="statusText">status updated successfully, Ben. </h4>
                 <img src="~/images/clockin.PNG" class="img-responsive" />
             </div>
             <div class="modal-footer m-auto">
@@ -90,63 +100,60 @@
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="clockInPrompt" tabindex="-1" role="dialog" aria-labelledby="clockInPrompt" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body text-center">
+                <h4 id="statusText">Do you want to submit timessheet for the day. </h4>
+            </div>
+            <div class="modal-footer m-auto">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-success" data-dismiss="modal" id="btnOkay">Ok</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="modalEditLog" tabindex="-1" role="dialog" aria-labelledby="modalEditLog" aria-hidden="true">
+    <div class="modal-dialog" style="width:380px">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body text-center">
+                <input type="hidden" id="editLogId" />
+                <input type="hidden" id="editStatusLog" />
+                <div class='input-group date' id='datetimepicker1'>
+                    <input type='text' id="editDate" class="form-control" />
+                    <span class="input-group-addon">
+                        <span class="far fa-calendar-alt"></span>
+                    </span>
+                </div>
+            </div>
+            <div class="modal-footer m-auto">                
+                <button type="button" class="btn btn-success"  id="btnEditOkay">update</button>
+            </div>
+        </div>
+    </div>
+</div>
 @*Modals *@
+
 <script src="~/js/Constants.js"></script>
 <script src="~/js/punchTime.js"></script>
+<script src="~/js/punchLog.js"></script>
+<script src="~/js/site.js"></script>
 <script>
-    $(document).ready(function (e) {
-
-        punchTime.loadPunchLog();
-        punchTime.updateStatus('@ViewBag.Status');
-
-
-        $('#actClockIn').click(function () {
-            $('#clockTitle').html("Would you like to Clock In ?");
-            $('#btnClockIn').html(constants.ClockedIn);
-            $('#clockIn').modal('show');
-        });
-
-
-        $('#actClockOut').click(function () {
-            $('#clockTitle').html("Would you like to Clock out ?");
-            $('#btnClockIn').html(constants.ClocedOut);
-            $('#clockIn').modal('show');
-        });
-
-
-        $('#actLunchStart').click(function () {
-            $('#clockTitle').html("Would you like to description?");
-            $('#btnClockIn').html(constants.Lunch);
-            $('#clockIn').modal('show');
-        });
-
-        $('#actLunchEnd').click(function () {
-            $('#clockTitle').html("Would you like to description?");
-            $('#btnClockIn').html(constants.Lunchout);
-            $('#clockIn').modal('show');
-        });
-
-        $('#btnClockIn').click(function () {       
-            var name = $('#btnClockIn').html();
-            var obj = { description: $('#txtDescription').val(), PunchName: name , PunchTime: new Date().toJSON() };
-            punchTime.clockIn(obj,name);
-        });
-
-        //$('#actClockOut').click(function () {
-        //    $('#clockTitle').html("Would you like to Clock out ?");
-        //    $('#clockIn').modal('show');
-        //    var obj = { description: $('#txtDescription').val(), PunchName: constants.ClockedOut, PunchTime: new Date().toJSON() };
-        //    punchTime.clockIn(obj);
-        //});
-
-        //$('#actLunchStart').click(function () {
-        //    var obj = { description: $('#txtDescription').val(), PunchName: constants.Lunch, PunchTime: new Date().toJSON() };
-        //    punchTime.clockIn(obj);
-        //});
-
-        //$('#actLunchEnd').click(function () {
-        //    var obj = { description: $('#txtDescription').val(), PunchName: constants.Lunchout, PunchTime: new Date().toJSON() };
-        //    punchTime.clockIn(obj);
-        //});
-    });
+    punchLog.clock();
+    punchLog.loadPunchLog();    
+    punchLog.loadHours();
+    punchLog.updateStatus('@ViewBag.Status');
 </script>

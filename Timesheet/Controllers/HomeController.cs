@@ -1,11 +1,12 @@
-﻿using System.Diagnostics;
-using System.Threading.Tasks;
+﻿using System;
+using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
 using Microsoft.Extensions.Logging;
-using Microsoft.VisualBasic;
-using Newtonsoft.Json;
+using Patriot.Core.Services.Common;
 using Patriot.Core.Services.Services.Interfaces;
 using Patriot.Entities;
+using Timesheet.Extensions;
 using Timesheet.Models;
 
 namespace Timesheet.Controllers
@@ -23,72 +24,88 @@ namespace Timesheet.Controllers
             _pService = pService;
         }
 
+   
+
         public IActionResult Index()
-        {            
-            SetStatus();
+        {
+            CurrentStatus(); 
             return View();
         }
 
+   
 
-        public IActionResult Index2()
+        public void CurrentStatus()
         {
-            Status(); 
-            return View();
-        }
-
-        private void SetStatus()
-        {
-
-            ViewBag.Status = Common.Constants.NoStatus;
-            var data = _service.GetCurrentStatus();
-            if (data != null)
+            var latestrecord = _pService.GetLatestTimeSheetRecord();
+            if(latestrecord != null)
             {
-                ViewBag.Status = data.PunchName;
+                HttpContext.Session.Set<int>("LogID", latestrecord.ID);
             }
-          
-        }
-
-
-        public void Status()
-        {                  
-            ViewBag.Status = _pService.GetCurrentStatus();
+            ViewBag.Status = _pService.GetCurrentStatus(DateTime.Now);
             
         }
 
 
-
-
-        public async Task<IActionResult> Schedule()
-        {
-          
-            var data =  _service.GetTodayLog();
+        public IActionResult DailySchedule()
+        {            
+            var data = _pService.GetDailyLogs(DateTime.Now);
             return PartialView("Schedule", data);
         }
 
-
-        public async Task<IActionResult> Schedule1()
+        [HttpPost]
+        public JsonResult InsertLog(DailyLog log)
         {
+            int logID = HttpContext.Session.Get<int>("LogID");
+            if (logID > 0)
+            {
+                log.ID = logID;
+                _pService.Update(log);
+                if(log.PunchName.ToLower() == Constants.ClockedOut.Replace(" ", "").ToLower())
+                {
+                    HttpContext.Session.Set<int>("LogID",0);
+                }
+            }
+            else
+            {
+                
+                logID = _pService.insert(log);
+                HttpContext.Session.Set("LogID", logID);
+            }
             
-            var data = _pService.GetDailyLogs();
-            return PartialView("Schedule", data);
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> Schedule1(DailyLog log)
-        {
-
-            _pService.insert(log);
+            
             return Json("data inserted successfully");
         }
 
-        [HttpPost]
-        public async Task<IActionResult> Schedule(DailyLog log)
+      
+
+        public JsonResult GetHours()
         {
-              _service.Insert(log);
-            return Json("data inserted successfully");
+            return Json(_pService.GetTopDurations(DateTime.Now));
         }
 
-        
+        [HttpPost]
+        public  IActionResult SubmitTimesheet()
+        {
+            var response = _pService.SubmitTimeSheet();
+            return Json(response);
+        }
+
+        public IActionResult History()
+        {
+            var data = _pService.GetHistory();
+            return View(data);
+        }
+
+        [HttpPost]
+        public JsonResult EditLog(DailyLog dailyLog)
+        {         
+            var response=_pService.Update(dailyLog);
+            return Json(response);
+        }
+
+
+     
+
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

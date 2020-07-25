@@ -51,16 +51,21 @@
     margin: 0 auto;
     text-align: center;
 }
-/*-------------------------time clock end ----------------------------*/
 
-.dhx_cal_date{
-    display: none;
+.tblTotal {
+    background: #fff!important;
+    border-bottom: 3px double #000;
+}
+
+.tblTotal td {
+    border-top: 1px solid black !important;
+    font-weight: bold;
 }
 
 
 
-    @media (min-width: 768px) {
-        #sidebar-wrapper {
+@media (min-width: 768px) {
+    #sidebar-wrapper {
         margin-left: 0;
     }
     .dhx_cal_date{
